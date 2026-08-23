@@ -19,7 +19,12 @@ function isAllowedEmail(email: string) {
 }
 
 async function validateEmailWithZeroBounce(email: string) {
-  const apiKey = "01c6d3f9be7f44d3b420adf61ca13616";
+  const apiKey = import.meta.env.VITE_ZEROBOUNCE_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'Missing ZeroBounce API key. Copy .env.example to .env and add VITE_ZEROBOUNCE_API_KEY.'
+    );
+  }
   const url = `https://api.zerobounce.net/v2/validate?api_key=${apiKey}&email=${encodeURIComponent(email)}`;
   // Add a timeout to the fetch (10s)
   const controller = new AbortController();
